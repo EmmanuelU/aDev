@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2013 - Emmanuel Utomi (emmanuelutomi@gmail.com)
 #
-# Android Dev Tools is 100% free.  This script file is intended for personal
+# aDev is 100% free.  This script file is intended for personal
 # and/or educational use only.  It may not be duplicated for monetary
 # benefit or any other purpose without the permission of the developer.
 #
@@ -15,6 +15,8 @@ Made for organizing all of my android tools.
 
 Built by Emmanuel Utomi (Xmc Wildchild22)
 
-How to run program:
+How to Compile program:
 make -j#
+
+How to Run program:
 ./aDev [tool]
