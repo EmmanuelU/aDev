@@ -15,8 +15,10 @@ Made for organizing all of my android tools.
 
 Built by Emmanuel Utomi (Xmc Wildchild22)
 
-How to Compile program:
-make -j#
+Instructions:
 
-How to Run program:
-./aDev [tool]
+- Compile & Configure program
+	make
+
+- Run program:
+	aDev [param]

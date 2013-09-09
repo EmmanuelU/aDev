@@ -1,3 +1,8 @@
+aDev
+bin
+*.zip
+*.sh
+tools
 *~
 *.o
 *.txt

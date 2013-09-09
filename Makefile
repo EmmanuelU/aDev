@@ -1,9 +1,43 @@
 # CFLAGS =
 
-all: aDev
+all: clean aDev config
 
 aDev: aDev.c
-	$(CC) $(CFLAGS) -o $@ $^
+	clear
+	@echo Building aDev ...
+	@echo 
+	@-rm -f aDev *.o
+	@$(CC) $(CFLAGS) -o $@ $^
+	@-rm -rf bin
+	@mkdir bin
+	@mv aDev bin
+	@echo Done
 
 clean:
-	-rm -f aDev *.o
+	clear
+	@echo Cleaning Workspace ...
+	@-rm -rf aDev *.o *.zip tools *.sh bin *.txt
+	@echo 
+	@echo Done
+
+config:
+	clear
+	@echo Downloading Proprietary Files ...
+	@-rm -f tools.zip
+	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/CheckForTools.sh > CheckForTools.sh
+	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/tools.zip > tools.zip
+	clear
+	@chmod +x CheckForTools.sh
+	./CheckForTools.sh
+	@-rm -f CheckForTools.sh
+	@-rm -f tools.zip
+	clear
+	@-rm -rf *.sh
+	@-rm -rf tools.zip
+	@echo aDev configured, please restart your computer
+	@echo 
+	@echo OR
+	@echo 
+	@echo "Run: '. /tmp/aDev.sh'"
+	@echo 
+	@echo "Then run 'aDev test' to confirm aDev installed properly"

@@ -34,7 +34,7 @@ void WriteFile(char* buildlog, char* text){
 
 void quit() // write error message and quit
 {
-    fprintf(stderr, "Fatal Error\n");
+    fprintf(stderr, "\nFatal Error\n");
     exit(1);
 }
 
@@ -56,30 +56,16 @@ void DebugLog(char* text){
 }
 
 void CmdOut(char* text){
-	#ifndef OUTPUT
-	system(text);
-	MkFile(output_log);
-	WriteFile(output_log,text);
-	#else
-	FILE *fp;
-	int status;
-	char path[128];
-
-	fp = popen(text, "r");
-	if (fp == NULL)
-	quit();
-
-
-	while (fgets(path, 128, fp) != NULL)
-	printf("%s", path);
-	pclose(fp);
+	#ifdef OUTPUT
+	DebugLog(text);
 	#endif
+	system(text);
 }
 
 void PrintText(char* text){
 	fprintf(stdout, "%s \n", text);
 	#ifdef OUTPUT
-	WriteFile(output_log,text);
+	DebugLog(text);
 	#endif
 	return;
 }
@@ -161,6 +147,14 @@ bool DoesFileExist(char* text){
 
 void DelFile(char* text){
 	remove(text);
+}
+
+char* GetTime(){
+	char* text; 
+	time_t seconds;
+	seconds = time(NULL);
+	asprintf(&text, "%ld", seconds/3600);
+	return text;
 }
 
 char* GetUserInput(){
