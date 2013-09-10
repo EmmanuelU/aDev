@@ -26,16 +26,16 @@ config:
 	@echo Downloading Proprietary Files ...
 	@-rm -f tools.zip
 	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/CheckForTools.sh > CheckForTools.sh
+	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/CheckForComp.sh > CheckForComp.sh
 	@wget http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/tools.zip -O tools.zip
 	clear
 	@chmod +x CheckForTools.sh
+	@chmod +x CheckForComp.sh
 	./CheckForTools.sh
-	@-rm -f CheckForTools.sh
-	@-rm -f tools.zip
 	clear
-	@-rm -rf *.sh
 	@-rm -rf tools.zip
 	@chmod +x bin/*
-	@echo "aDev configured, please Run: '/./tmp/aDev.sh' right now."
+	./CheckForComp.sh
+	@-rm -rf *.sh
+	@-rm -rf *.zip
 	@echo 
-	@echo "Then run 'aDev test' to confirm aDev installed properly"
