@@ -11,8 +11,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <dirent.h>
 
 #define WAIT -1
+
+extern void PrintDebugLogInfo(void);
 
 int tick;
 int tick2;
@@ -32,10 +35,19 @@ void WriteFile(char* buildlog, char* text){
 	fclose(file);
 }
 
-void quit() // write error message and quit
+bool IsFileEmpty(char* text)
 {
-    fprintf(stderr, "\nFatal Error\n");
-    exit(1);
+    FILE *file = fopen(text, "ab+");
+    long savedOffset = ftell(file);
+    fseek(file, 0, SEEK_END);
+
+    if (ftell(file) == 0)
+    {
+        return true;
+    }
+
+    fseek(file, savedOffset, SEEK_SET);
+    return false;
 }
 
 void ClearPrints(){
@@ -121,6 +133,17 @@ char* GetCurDir(){
 	return getenv("PWD");
 }
 
+void PrintFilesInDir(){
+	DIR *d;
+	struct dirent *dir;
+	d = opendir(".");
+	if (d){
+		while ((dir = readdir(d)) != NULL) PrintText(dir->d_name);
+		closedir(d);
+	}
+	return;
+}
+
 bool DoesDirExist(char* text){
 	struct stat dir;
 	tick = stat(text, &dir);
@@ -147,6 +170,12 @@ bool DoesFileExist(char* text){
 
 void DelFile(char* text){
 	remove(text);
+}
+
+void quit(){
+	PrintText("\n--- Fatal Error ---");
+	PrintDebugLogInfo();
+	exit(-1);
 }
 
 char* GetTime(){
@@ -197,6 +226,10 @@ void WaitForEnterKey(){
 	LineSkip();	
 	getchar();
 	return;
+}
+
+bool IsStringEmpty(char* text){
+	return CompareStrings(text, "");
 }
 
 bool IsYes(char* text){

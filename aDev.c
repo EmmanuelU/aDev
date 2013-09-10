@@ -1,40 +1,27 @@
 #define OUTPUT
-char* output_log = "adev-log.txt";
+char* output_log = "aDev-log.txt";
 
 #include "include/emman.h"
 #include "include/aDevFunctions.h"
 
-void PrintHelp(){
-	ClearPrints();
-	PrintTextWithVar("Android Dev Tools v", dev.adev_version, ":");
-	LineSkip();
-	PrintText("Usage: aDev [OPTIONS]"); 
-	LineSkip();
-	PrintText("Options:"); 
-	LineSkip();
-	PrintText("[--help] - Show this message");
-	LineSkip();
-	PrintText("[adb] - Foward a command to adb");
-	LineSkip();
-	PrintText("[last_kmsg] - Screenshot Your Device");
-	LineSkip();
-	PrintText("[logcat] - Pull your device's logcat");
-	LineSkip();
-	PrintText("[kmsg] - Pull your device's kmsg");
-	LineSkip();
-	PrintText("[last_kmsg] - Pull your device's last kmsg");
-	LineSkip();
-	LineSkip();
-	return;
-}
-
 int main(int argc, char *argv[ ]){
 	ClearPrints();
+	chdir(CombineStrings("/home/", GetUser()));
 	DelFile(output_log);
 	DebugLog("--- Begin Android Dev Tools");
+	CmdOut("aDev_adb devices > tmp.txt");
+	if(IsFileEmpty("tmp.txt")){
+		ClearPrints();
+		PrintText("--- Proprietary Files Not Found! ---");
+		PrintText("Run: \'aDev config\'");
+		LineSkip();
+		exit(-1);		
+	}
+	DelFile("tmp.txt");
 	if(argc <= 1){
-		PrintText("Invalid parameters!");
-		PrintText("Type aDev --help");
+		PrintText("--- Invalid parameters! ---");
+		PrintText("Run: \'aDev --help\'");
+		LineSkip();
 		exit(-1);
 	}
 	for(tick = 1; tick < argc; tick++){
@@ -42,15 +29,34 @@ int main(int argc, char *argv[ ]){
 			PrintHelp();
 			exit(0);
 		}
+		if(CompareStrings(argv[tick], "--version") || CompareStrings(argv[tick], "-v")){
+			PrintVersion();
+			exit(0);
+		}
 		else if(CompareStrings(argv[tick], "test")){
-			PrintText("aDev was installed properly");
+			PrintText("aDev was properly installed, enjoy!");
+			LineSkip();
+			exit(0);
 		}
 		else if(CompareStrings(argv[tick], "logcat")){
-			devlog(1);
+			DevLog(1);
+			exit(0);
+		}
+		else if(CompareStrings(argv[tick], "dmesg")){
+			DevLog(2);
+			exit(0);
+		}
+		else if(CompareStrings(argv[tick], "kmsg")){
+			DevLog(3);
+			exit(0);
+		}
+		else if(CompareStrings(argv[tick], "screenshot")){
+			ScreenShot();
 			exit(0);
 		}
 		else {
-			PrintText(CombineStrings("Unknown Parameter: ", argv[argc - 1]));
+			if(IsStringEmpty(argv[argc - 1])) PrintText(CombineStrings("Unknown Parameter: ", argv[argc - 2]));
+			else PrintText(CombineStrings("Unknown Parameter: ", argv[argc - 1]));
 			quit();
 		}
 	}

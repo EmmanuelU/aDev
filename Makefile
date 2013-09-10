@@ -8,9 +8,10 @@ aDev: aDev.c
 	@echo 
 	@-rm -f aDev *.o
 	@$(CC) $(CFLAGS) -o $@ $^
-	@-rm -rf bin
-	@mkdir bin
+	@-rm -rf bin/aDev
+	@mkdir -p bin
 	@mv aDev bin
+	@chmod +x bin/*
 	@echo Done
 
 clean:
@@ -34,10 +35,7 @@ config:
 	clear
 	@-rm -rf *.sh
 	@-rm -rf tools.zip
-	@echo aDev configured, please restart your computer
-	@echo 
-	@echo OR
-	@echo 
-	@echo "Run: '. /tmp/aDev.sh'"
+	@chmod +x bin/*
+	@echo "aDev configured, please Run: '/./tmp/aDev.sh' right now."
 	@echo 
 	@echo "Then run 'aDev test' to confirm aDev installed properly"
