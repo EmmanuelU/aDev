@@ -1,6 +1,12 @@
 Android Developer Tools (aDev)
 ===========
 
+Notes:
+---------------
+aDev will make changes to your .bashrc so if you move aDev or 
+it does not install correctly edit the aDev config in your .bashrc accordingly
+
+
 Download Program
 ---------------
     wget https://github.com/EmmanuelU/aDev/archive/master.zip -O aDev.zip
