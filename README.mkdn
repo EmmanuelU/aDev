@@ -1,0 +1,37 @@
+Android Developer Tools (aDev)
+===========
+
+Download Program
+---------------
+    curl https://github.com/EmmanuelU/aDev/archive/master.zip > aDev.zip
+    mkdir ~/aDev
+    unzip aDev.zip -d ~/aDev
+
+
+Compile & Configure Program
+---------------
+    make clean
+    make aDev
+    make config
+
+OR JUST
+
+    make
+
+
+Run Program:
+---------------
+    aDev [parameters]
+
+
+License
+------------------
+    ############################################################################
+    #
+    # Copyright (c) 2013 - Emmanuel Utomi (emmanuelutomi@gmail.com)
+    #
+    # aDev is 100% free.  This script file is intended for personal
+    # and/or educational use only.  It may not be duplicated for monetary
+    # benefit or any other purpose without the permission of the developer.
+    #
+    ############################################################################
