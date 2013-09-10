@@ -3,7 +3,7 @@ Android Developer Tools (aDev)
 
 Download Program
 ---------------
-    curl https://github.com/EmmanuelU/aDev/archive/master.zip > aDev.zip
+    wget https://github.com/EmmanuelU/aDev/archive/master.zip -O aDev.zip
     mkdir ~/aDev
     unzip aDev.zip -d ~/aDev
 
