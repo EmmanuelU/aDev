@@ -1,16 +1,16 @@
 typedef struct aDev {
-	int adev_version;
+	char* adev_version;
 
 } aDev;
 
 
 static struct aDev dev = {
-	.adev_version = 1.0,
+	.adev_version = "1.1",
 };
 
 void PrintHelp(){
 	ClearPrints();
-	PrintTextWithVar("Android Dev Tools v", dev.adev_version, ":");
+	PrintTextWithString("Android Dev Tools v", dev.adev_version, ":");
 	LineSkip();
 	PrintText("Usage: aDev [OPTIONS]"); 
 	LineSkip();
@@ -21,6 +21,10 @@ void PrintHelp(){
 	PrintText("[--version]       - Show aDev Version");
 	LineSkip();
 	PrintText("[adb]             - Foward a command to adb");
+	LineSkip();
+	PrintText("[fastboot]        - Foward a command to fastboot");
+	LineSkip();
+	PrintText("[info]            - Retrieve Info on a Connected Device");
 	LineSkip();
 	PrintText("[screenshot]      - Screenshot Your Device");
 	LineSkip();
@@ -36,7 +40,7 @@ void PrintHelp(){
 
 void PrintVersion(){ // TODO add OTA Updating
 	ClearPrints();
-	PrintTextWithVar("Android Dev Tools v", dev.adev_version, ":");
+	PrintTextWithString("Android Dev Tools v", dev.adev_version, ":");
 	LineSkip();
 	PrintText("By Emmanuel Utomi (aka Xmc Wildchild22)");
 	PrintText("You can find the project hosted at: https://github.com/EmmanuelU/aDev");
@@ -99,11 +103,53 @@ void ScreenShot(){
 	return;
 }
 
+void Info(){
+	PrintText("Waiting for Device Connection ...");
+	CmdOut("aDev_adb wait-for-device");
+	ClearPrints();
+	CmdOut("aDev_adb shell getprop ro.product.device > aDev_info.txt");
+	PrintText(CombineStrings("Device: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.product.model > aDev_info.txt");
+	PrintText(CombineStrings("Model: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.board.platform > aDev_info.txt");
+	PrintText(CombineStrings("Arch: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.build.version.release > aDev_info.txt");
+	PrintText(CombineStrings("Android Version: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.adb.secure > aDev_info.txt");
+	if(CompareStrings(GetLineFromFile("aDev_info.txt", 1), "0")) PrintText("Rooted: No");
+	else PrintText("Rooted: Yes");
+	LineSkip();
+
+	CmdOut("aDev_adb shell getprop ro.product.cpu.abi > aDev_info.txt");
+	PrintText(CombineStrings("CPU Desc: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.device.cpu > aDev_info.txt");
+	PrintText(CombineStrings("CPU Variant: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.device.gpu > aDev_info.txt");
+	PrintText(CombineStrings("GPU Desc: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.device.screen_res > aDev_info.txt");
+	PrintText(CombineStrings("Display Resolution: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	CmdOut("aDev_adb shell getprop ro.sf.lcd_density > aDev_info.txt");
+	PrintText(CombineStrings("LCD Density: ", GetLineFromFile("aDev_info.txt", 1)));
+
+	DelFile("aDev_info.txt");
+	return;
+}
+
 bool IsValidArg(char* argv){
 	if(CompareStrings(argv, "--help") || CompareStrings(argv, "-h")) return true;
 	if(CompareStrings(argv, "--version") || CompareStrings(argv, "-v")) return true;
 	if(CompareStrings(argv, "test")) return true;
 	if(CompareStrings(argv, "adb")) return true;
+	if(CompareStrings(argv, "fastboot")) return true;
+	if(CompareStrings(argv, "info")) return true;
 	if(CompareStrings(argv, "logcat")) return true;
 	if(CompareStrings(argv, "dmesg")) return true;
 	if(CompareStrings(argv, "screenshot")) return true;

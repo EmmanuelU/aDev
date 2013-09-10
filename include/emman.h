@@ -16,6 +16,8 @@
 #define WAIT -1
 
 extern void PrintDebugLogInfo(void);
+extern void PrintText(char* text);
+extern bool IsStringEmpty(char* text);
 
 int tick;
 int tick2;
@@ -48,6 +50,61 @@ bool IsFileEmpty(char* text)
 
     fseek(file, savedOffset, SEEK_SET);
     return false;
+}
+
+void ReadFile(char* text){
+	int size = 1024, pos;
+	int c;
+	char *buffer = (char *)malloc(size);
+
+	FILE *f = fopen(text, "r");
+	if(f) {
+		do { // read all lines in file
+			pos = 0;
+			do{ // read one line
+			c = fgetc(f);
+			if(c != EOF) buffer[pos++] = (char)c;
+			if(pos >= size - 1) { // increase buffer length - leave room for 0
+				size *=2;
+				buffer = (char*)realloc(buffer, size);
+			}
+			}while(c != EOF && c != '\n');
+			buffer[pos] = 0;
+			// line is now in buffer
+			PrintText(buffer);
+		} while(c != EOF); 
+		fclose(f);
+	}
+	free(buffer);
+	return;
+}
+
+char* GetLineFromFile(char* text, int line){
+	int size = 1024, pos;
+	int c;
+	char *buffer = (char *)malloc(size);
+
+	FILE *f = fopen(text, "r");
+	if(f) {
+		do { // read all lines in file
+			pos = (line - 1);
+			do{ // read one line
+			c = fgetc(f);
+			if(c != EOF) buffer[pos++] = (char)c;
+			if(pos >= size - 1) { // increase buffer length - leave room for 0
+				size *=2;
+				buffer = (char*)realloc(buffer, size);
+			}
+			}while(c != EOF && c != '\n');
+			buffer[pos] = 0;
+			// line is now in buffer
+			if(IsStringEmpty(buffer)) return "unknown";
+			return buffer;
+		} while(c != EOF); 
+		fclose(f);
+	}
+	free(buffer);
+	return;
 }
 
 void ClearPrints(){
@@ -229,7 +286,10 @@ void WaitForEnterKey(){
 }
 
 bool IsStringEmpty(char* text){
-	return CompareStrings(text, "");
+	if(CompareStrings(text, "")) return true;
+	if(CompareStrings(text, "(null)")) return true;
+	if(text == NULL) return true;
+	return false;
 }
 
 bool IsYes(char* text){
