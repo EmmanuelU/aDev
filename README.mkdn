@@ -6,6 +6,7 @@ Download Program
     wget https://github.com/EmmanuelU/aDev/archive/master.zip -O aDev.zip
     mkdir ~/aDev
     unzip aDev.zip -d ~/aDev
+    cd ~/aDev
 
 
 Compile & Configure Program
