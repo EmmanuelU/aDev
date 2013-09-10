@@ -26,7 +26,7 @@ config:
 	@echo Downloading Proprietary Files ...
 	@-rm -f tools.zip
 	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/CheckForTools.sh > CheckForTools.sh
-	@curl http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/tools.zip > tools.zip
+	@wget http://www.rootfiles.org/pub/mirror/xmcwildchild22/aDev/tools.zip -O tools.zip
 	clear
 	@chmod +x CheckForTools.sh
 	./CheckForTools.sh
