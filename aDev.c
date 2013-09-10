@@ -6,10 +6,6 @@ char* output_log = "aDev-log.txt";
 
 int main(int argc, char *argv[ ]){
 	ClearPrints();
-	CmdOut("bold=`tput bold`");
-	CmdOut("normal=`tput sgr0`");
-	CmdOut("echo this is ${bold}bold${normal} but this isn't");
-	exit(0);
 	chdir(CombineStrings("/home/", GetUser()));
 	DelFile(output_log);
 	DebugLog("--- Begin Android Dev Tools");
