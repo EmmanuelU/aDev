@@ -33,15 +33,16 @@ Run Program:
 
 Features:
 ---------------
-- [x] Universal Support (aDev will work from any directory your in)
-- [x] Works on All Common Linux Distros. (Ubuntu, RedHat, Mint, etc.)
-- [x] adb and fastboot enviroment auto setup (with forward support)
-Provides Easy Access to:
-- [x] Retrieving a Logcat to a text file
-- [x] Retrieving a Dmesg to a text file
-- [x] Retrieving a Last Kmsg to a text file
-- [x] Retrieving a Live Screenshot
-- [x] Retrieving Info about your Current Device
+- Universal Support (aDev will work from any directory your in)
+- Works on All Common Linux Distros. (Ubuntu, RedHat, Mint, etc.)
+- adb and fastboot enviroment auto setup (with forward support)
+
+ADev Provides Easy Access to:
+- Retrieving a Logcat to a text file
+- Retrieving a Dmesg to a text file
+- Retrieving a Last Kmsg to a text file
+- Retrieving a Live Screenshot
+- Retrieving Info about your Current Device
 
 
 License
